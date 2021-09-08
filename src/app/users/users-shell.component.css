@@ -1,0 +1,16 @@
+.navigation{
+  width: 90%;
+  text-align: right;
+  background-color: aquamarine;
+}
+
+.full-width {
+  width: 100%;
+  text-align: right;
+  margin: auto auto;
+}
+
+.users-card {
+  min-width: 120px;
+  margin: 20px auto;
+}

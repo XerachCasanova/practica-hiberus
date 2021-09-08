@@ -1,0 +1,60 @@
+
+
+<form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()" >
+  <mat-card class="userform-card!">
+    <nav>
+      <a mat-raised-button color="primary" [ngClass]="{'hidden': isUpdating }" (click)="userFormShow()" >{{nameButtonAdd}}</a>
+    </nav>
+    
+    <mat-card class="userform-card" [ngClass]="{'hidden': !showForm }">
+      <mat-card-header>
+        <mat-card-title>{{nameActionForm}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nombre" formControlName="name">
+              <mat-error *ngIf="userForm.controls['name'].hasError('required')">
+                El nombre es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Apellido" formControlName="surname">
+              <mat-error *ngIf="userForm.controls['surname'].hasError('required')">
+                El apellido es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input type="email" matInput placeholder="E-mail" formControlName="email" />
+              <mat-error *ngIf="userForm.controls['email'].hasError('required')">
+                El E-mail es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input type="password" matInput placeholder="Password" formControlName="password" />
+              <mat-error *ngIf="userForm.controls['password'].hasError('required')">
+                El password es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled] = "userForm.invalid">{{nameActionForm}}</button>
+        <a mat-raised-button color="warn" [ngClass]="{'hidden': !isUpdating }" (click) = "resetForm()">Cancelar edición</a>
+      </mat-card-actions>
+    </mat-card>
+  </mat-card>
+</form>

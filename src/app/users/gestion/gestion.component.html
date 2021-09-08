@@ -1,0 +1,15 @@
+<app-form-users 
+  (create) = "createUser($event)"
+  [userToUpdate] = "userToUpdate"
+  >
+
+</app-form-users>
+
+<app-listusers 
+  [userList] = "userList"
+  (delete) = "deleteUser($event)"
+  (update) = "updateUser($event)"
+  
+  >
+
+</app-listusers>
