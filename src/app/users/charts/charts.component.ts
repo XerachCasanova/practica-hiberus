@@ -1,6 +1,6 @@
 
 
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ChartType } from 'angular-google-charts';
@@ -24,6 +24,9 @@ export class ChartsComponent implements OnInit {
   chartMostPopularNames: {};
   chartMostPopularLengthSurnames:{};
 
+  chartWidth=600;
+  chartHeight=250;
+
   constructor(private breakpointObserver: BreakpointObserver, private usuarioDaoService:UsuarioDaoService) {
     
     this.dataUsers = [];
@@ -42,8 +45,6 @@ export class ChartsComponent implements OnInit {
       type: ChartType.PieChart,
       data: this.getMostPopularNames(),
       columnNames: ["Nombre", "Valor"],
-      width: 600,
-      height: 250,
       options:{}
     }
 
@@ -54,34 +55,34 @@ export class ChartsComponent implements OnInit {
       type: ChartType.BarChart,
       data: this.getMostPopularLengthSurnames(),
       columnNames: ["Apellido", "Tamaño"],
-      width: 600,
-      height: 250,
       options:{}
     }
     
-
+    this.makeCards();
     
-    this.cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-      map(({ matches }) => {
-        if (matches) {
+  }
+  
+  private makeCards(){
+      this.cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+        map(({ matches }) => {
+          if (matches) {
+            return [
+              this.chartMostPopularNames,
+              this.chartMostPopularLengthSurnames,
+            ];
+          }
+    
           return [
             this.chartMostPopularNames,
             this.chartMostPopularLengthSurnames,
           ];
-        }
-  
-        return [
-          this.chartMostPopularNames,
-          this.chartMostPopularLengthSurnames,
-        ];
-      })
-    );
-    
-  }
+        })
+      );
+      
+    }
   
 
-
-  getMostPopularNames():any{
+  private getMostPopularNames():any{
 
     let uniqueNames = new Set(this.dataUsers?.map(data => data.name));
     
@@ -107,7 +108,7 @@ export class ChartsComponent implements OnInit {
 
   }
 
-  getMostPopularLengthSurnames():any{
+  private getMostPopularLengthSurnames():any{
 
     let uniqueSurnames = this.dataUsers?.map(data => data.surname);
     
@@ -119,43 +120,13 @@ export class ChartsComponent implements OnInit {
     return this.mostPopularLengthSurnames = Object.assign(array.slice(0,5));
 
   }
-
-
   
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event:any) {
+    this.chartWidth = window.innerWidth * 0.35;
+    this.chartHeight = window.innerHeight * 0.35;
+ 
+  }
+
 }
-
-
-/*import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-
-@Component({
-  selector: 'app-charts',
-  templateUrl: './charts.component.html',
-  styleUrls: ['./charts.component.css']
-})
-export class ChartsComponent {
-
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
-
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  );
-
-  constructor(private breakpointObserver: BreakpointObserver) {}
-}
-*/

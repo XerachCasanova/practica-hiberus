@@ -19,3 +19,22 @@
 .dashboard-card-content {
   text-align: center;
 }
+
+
+.chart-parent{
+
+  min-height:500px;
+  height: 100%;
+  width: 100%;
+  margin:auto;
+  background:#fff;
+  text-align:center
+}
+.chart-child{
+  min-height:500px;
+  height: 100%;
+  width: 100%;
+  margin:auto;
+  background:#fff;
+  text-align:center
+}
